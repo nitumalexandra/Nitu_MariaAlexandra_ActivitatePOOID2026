@@ -5,20 +5,21 @@ using namespace std;
 
 class Masina {
 private:
-    const int id;
-    float pret;
+    const int id; //get
+    float pret;//get
     char* tip;
-    string denumire;
+    string denumire; //get set
 
 public:
-
-    Masina() : id() {
+    static int nrMasina;
+    Masina() : id(++nrMasina) {
         pret = 0;
         tip = nullptr;
         denumire = " ";
     }
 
     Masina(int id, float pret, const char* tip, string denumire) : id(id) {
+        nrMasina++;
         this->pret = pret;
         this->denumire = denumire;
         if (tip != nullptr) {
@@ -27,6 +28,28 @@ public:
         }
         else {
             this->tip = nullptr;
+        }
+    }
+
+    //get si set
+    int getId() {
+        return this->id;
+    }
+
+    float getPret() {
+        return this->pret;
+    }
+
+    string getDenumire() {
+        return this->denumire;
+    }
+
+    void setDenumire(string denumireNoua) {
+        if (denumireNoua.length() > 0) {
+            this->denumire = denumireNoua;
+        }
+        else {
+            cout << "Denumire falsa" << endl;
         }
     }
 
@@ -40,15 +63,29 @@ public:
         else {
             cout << "nu exista tip masina";
         }
+
+    }
+
+    ~Masina() {
+        cout << endl << "s-a apelat destructorul";
+        if (this->tip != nullptr) {
+            delete[] this->tip;
+        }
     }
 };
 
+int Masina::nrMasina = 0;
 
 int main() {
-
-
-    Masina* m = new Masina(1, 1, "C", "Opel");
-    m->afisareMasina();
+    Masina m1 = Masina(1, 1.4, "C ", "Opel ");
+    Masina m2 = Masina(6, 5.7, "D ", "Mercedes ");
+    m1.afisareMasina();
+    m2.afisareMasina();
+    cout << endl;
+    cout << m1.getDenumire() << endl;
+    m1.setDenumire("BMW");
+    cout << m1.getDenumire() << endl;
+    cout << endl << "Numarul de masini este " << Masina::nrMasina;
 
 
 
