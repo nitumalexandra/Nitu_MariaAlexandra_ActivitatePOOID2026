@@ -69,6 +69,29 @@ public:
 
 	}
 
+	void operator=(const Farmacie& copie) {
+		if (this != &copie) {
+			this->adresa = copie.adresa;
+			this->nrMedicamente = copie.nrMedicamente;
+
+			if (this->preturiMedicamente != nullptr) {
+				delete[] this->preturiMedicamente;
+				this->preturiMedicamente = nullptr;
+			}
+
+			if (copie.preturiMedicamente != nullptr) {
+				this->preturiMedicamente = new float[this->nrMedicamente];
+
+				for (int i = 0; i < this->nrMedicamente; i++) {
+					this->preturiMedicamente[i] = copie.preturiMedicamente[i];
+				}
+			}
+			else {
+				this->preturiMedicamente = nullptr;
+			}
+		}
+	}
+
 	~Farmacie() {
 		if (this->preturiMedicamente != nullptr) {
 			delete[]preturiMedicamente;
@@ -96,6 +119,9 @@ int main() {
 	cout << endl << f.getCODUnic() << endl;
 	cout << f.getAdresa() << endl;
 	cout << f.getNrMedicamente() << endl;
+
+	f2 = f;
+	f2.afisareFarmacie();
 
 	cout << "Numarul de farmacii este: " << Farmacie::nrFarmacii << endl;
 
